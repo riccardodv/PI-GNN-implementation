@@ -12,13 +12,6 @@ from collections import OrderedDict
 from more_itertools import windowed
 os.getcwd()
 
-
-
-# 1) crea data loader e prova a vedere trainando parecchi grafi se si impara un modello che funziona direttamente bene
-# su un nuovo grafo non visto in precedenza
-
-
-
 # Define two−layer GCN with possibility of STE
 class STEFunction(torch.autograd.Function):
     @staticmethod
@@ -214,10 +207,10 @@ def train(g, Q_mat, model, epochs = 100000, lr= 0.0001, T = 1, ScheduleAnnealing
             if ScheduleAnnealing:
                 T = T*alpha
                 for p in model.parameters():
-                    p.grad += torch.randn(p.shape)*np.sqrt(lr)*T
+                    p.grad += torch.randn(p.shape)/np.sqrt(lr)*T
             else:
                 for p in model.parameters():
-                    p.grad += torch.randn(p.shape)*np.sqrt(lr)*T
+                    p.grad += torch.randn(p.shape)/np.sqrt(lr)*T
 
         optimizer.step()
 
